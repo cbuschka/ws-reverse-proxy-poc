@@ -1,0 +1,17 @@
+version: '3'
+services:
+  proxy:
+    image: adoptopenjdk/openjdk11:debian-slim
+    volumes:
+      - ${PWD}:/work:ro
+    command: java -jar /work/proxy/target/proxy-1.0.0-SNAPSHOT.jar
+  client:
+    image: adoptopenjdk/openjdk11:debian-slim
+    volumes:
+      - ${PWD}:/work:ro
+    command: java -Dproxy.baseUrl=http://proxy:8080 -jar /work/client/target/client-1.0.0-SNAPSHOT.jar
+  server:
+    image: adoptopenjdk/openjdk11:debian-slim
+    volumes:
+      - ${PWD}:/work:ro
+    command: java -Dproxy.baseUrl=http://proxy:8080 -jar /work/server/target/server-1.0.0-SNAPSHOT.jar
